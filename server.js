@@ -13,3 +13,7 @@ console.log('server listening on port %s', app.get('PORT'));
 io.sockets.on('connection', function(socket){
     console.log('socket %s connected', socket.id);
 });
+
+var interval = setInterval(function(){
+    io.sockets.emit('message', { 'content': 'Mary had a little lamb' });
+},5000);
