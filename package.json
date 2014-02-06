@@ -28,6 +28,7 @@
   "dependencies": {
     "moment": "~2.5.1",
     "express": "~3.4.8",
-    "socket.io": "~0.9.16"
+    "socket.io": "~0.9.16",
+    "ns-api": "~1.1.1"
   }
 }
