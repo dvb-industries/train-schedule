@@ -1,0 +1,23 @@
+{
+  "name": "train-schedule",
+  "version": "0.0.0",
+  "description": "A little node server that will show outbound trains",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/dvb-industries/train-schedule.git"
+  },
+  "keywords": [
+    "server",
+    "ns",
+    "train"
+  ],
+  "author": "Daan van Berkel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dvb-industries/train-schedule/issues"
+  }
+}
