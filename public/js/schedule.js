@@ -42,7 +42,7 @@
     }
 
     var ScheduleView = function(parent, model) {
-	this.formatter = new Nano("Hello {subject}!");
+	this.formatter = new Nano(parent.innerHTML);
 	this.parent = parent;
 	this.model = model;
 	this.model.addListener(this.update.bind(this));
@@ -60,7 +60,7 @@
 	var container = this.container();
 	var div = document.createElement('div');
 	div.setAttribute('class', 'departure');
-	div.innerHTML = this.formatter.format({ 'subject': 'World' });
+	div.innerHTML = this.formatter.format(departure);
 	container.appendChild(div);
 
     }
