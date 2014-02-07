@@ -1,4 +1,18 @@
 (function(io){
+    var Nano = function(template){
+	this.template = template;
+    };
+    Nano.prototype.format = function(data){
+	return this.template.replace(/\{([\w\.]*)\}/g, function(str, key){
+	    var keys = key.split('.');
+	    var value = data[keys.shift()];
+	    for (var index = 0, size = keys.length; index < size; index++) {
+		value = value[keys[index]];
+	    }
+	    return (typeof value !== 'undefined' && value !== null)? value : '';
+	});
+    };
+
     var doNothing = function(){};
 
     var Observable = function(){
@@ -28,6 +42,7 @@
     }
 
     var ScheduleView = function(parent, model) {
+	this.formatter = new Nano("Hello {subject}!");
 	this.parent = parent;
 	this.model = model;
 	this.model.addListener(this.update.bind(this));
@@ -35,14 +50,20 @@
     };
     ScheduleView.prototype.update = function(){
 	var container = this.container();
-	var element = document.createElement('span');
-	element.innerHTML = 'Hello World';
-	container.appendChild(element);
-
+	container.innerHTML = '';
+	this.model.getData().forEach(this.append.bind(this));
     };
     ScheduleView.prototype.container = function(){
 	return this.parent;
     };
+    ScheduleView.prototype.append = function(departure){
+	var container = this.container();
+	var div = document.createElement('div');
+	div.setAttribute('class', 'departure');
+	div.innerHTML = this.formatter.format({ 'subject': 'World' });
+	container.appendChild(div);
+
+    }
 
     var schedule = new Schedule();
     new ScheduleView(document.getElementById('schedule'), schedule);
