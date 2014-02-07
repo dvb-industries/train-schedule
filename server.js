@@ -6,6 +6,8 @@ var io = require('socket.io').listen(server);
 var moment = require('moment');
 
 var credentials = require('./credentials');
+var longFormat = 'YYYY-MM-DDTHH:mm:ssZZ';
+
 
 var ns = require('ns-api');
 ns.username = credentials.username;
@@ -28,6 +30,9 @@ var interval = setInterval(function(){
 	toStation: 'Elst',
 	dateTime: moment().format('YYYY-MM-DDTHH:mm')
     }, function(error, data){
+	data.forEach(function(element){
+	    element.time = moment(element.ActueleVertrekTijd, longFormat).format('HH:mm');
+	});
 	if (!error) {
 	    io.sockets.emit('schedule', data);
 	}
