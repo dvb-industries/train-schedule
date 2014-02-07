@@ -3,6 +3,14 @@ var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 
+var moment = require('moment');
+
+var credentials = require('./credentials');
+
+var ns = require('ns-api');
+ns.username = credentials.username;
+ns.password = credentials.password;
+
 app.set('PORT', process.env.PORT | 1729);
 
 app.use('/static', express.static(__dirname + '/public'));
@@ -15,5 +23,13 @@ io.sockets.on('connection', function(socket){
 });
 
 var interval = setInterval(function(){
-    io.sockets.emit('message', { 'content': 'Mary had a little lamb' });
-},5000);
+    ns.reisadvies({
+	fromStation: 'Nijmegen',
+	toStation: 'Elst',
+	dateTime: moment().format('YYYY-MM-DDTHH:mm')
+    }, function(error, data){
+	if (!error) {
+	    io.sockets.emit('schedule', data);
+	}
+    });
+}, 10000);
